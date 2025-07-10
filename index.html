@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ação Limpa Nome - Positivo Nacional 2</title>
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      background-color: #ece5dd;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+
+    .chat-container {
+      width: 390px;
+      background-color: #ffffff;
+      border-radius: 10px;
+      box-shadow: 0 0 20px rgba(0,0,0,0.1);
+      overflow: hidden;
+      position: relative;
+      border: 1px solid #ccc;
+    }
+
+    .chat-header {
+      background-color: #075e54;
+      color: white;
+      padding: 10px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .chat-header img {
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+    }
+
+    .chat-header .info {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .chat-header .info .name {
+      font-weight: bold;
+      font-size: 16px;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .chat-header .info .name img {
+      width: 16px;
+      height: 16px;
+    }
+
+    .chat-header .info .status {
+      font-size: 12px;
+      color: #cfd8dc;
+    }
+
+    .chat-messages {
+      padding: 10px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      height: 420px;
+      overflow-y: auto;
+      background-image: url('https://e0.pxfuel.com/wallpapers/722/149/desktop-wallpaper-message-background-whatsapp-message-background.jpg');
+      background-size: cover;
+    }
+
+    .msg {
+      max-width: 75%;
+      padding: 10px 15px;
+      border-radius: 7.5px;
+      font-size: 14px;
+      line-height: 1.4;
+      position: relative;
+      display: inline-block;
+    }
+
+    .msg::after {
+      content: "";
+      position: absolute;
+      bottom: 0;
+      width: 0;
+      height: 0;
+    }
+
+    .msg.bot {
+      align-self: flex-start;
+      background-color: #ffffff;
+      border-top-left-radius: 0;
+    }
+
+    .msg.user {
+      align-self: flex-end;
+      background-color: #dcf8c6;
+      border-top-right-radius: 0;
+    }
+
+    .chat-footer {
+      padding: 15px;
+      text-align: center;
+      background-color: #f0f0f0;
+    }
+
+    .cta-btn {
+      background-color: #25d366;
+      color: white;
+      padding: 15px 20px;
+      border: none;
+      border-radius: 25px;
+      font-size: 16px;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-block;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    }
+  </style>
+</head>
+<body>
+  <div class="chat-container">
+    <div class="chat-header">
+      <img src="https://raw.githubusercontent.com/tatianemsimao/positivonacional/refs/heads/main/SIMBOLO%20P%20-%20Positivo%20Nacional%20(avatar).png" alt="Foto de perfil">
+      <div class="info">
+        <div class="name">
+          Positivo Nacional
+          <img src="https://upload.wikimedia.org/wikipedia/commons/e/e4/Twitter_Verified_Badge.svg" alt="Verificado">
+        </div>
+        <div class="status">online</div>
+      </div>
+    </div>
+    <div class="chat-messages" id="chat">
+      <!-- Mensagens vão aparecer aqui -->
+    </div>
+    <div class="chat-footer">
+      <a class="cta-btn" href="https://wa.me/5541984475963?text=Olá!%20Quero%20participar%20da%20Ação%20Limpa%20Nome." target="_blank">
+        Falar com Atendente no WhatsApp
+      </a>
+    </div>
+  </div>
+
+  <script>
+    const mensagens = [
+      { tipo: 'user', texto: 'Oi, vi o anúncio. Como funciona a Ação Limpa Nome?' },
+      { tipo: 'bot', texto: 'Olá! 😃 Essa ação é feita por via judicial, com base no direito do consumidor.' },
+      { tipo: 'bot', texto: 'Através dela, seu nome é LIMPO no SERASA, SPC, Boa Vista e Cartórios em até 15 dias sem precisar pagar as dívidas!' },
+      { tipo: 'user', texto: 'Sério? Mesmo com dívidas ativas?' },
+      { tipo: 'bot', texto: 'Sim. A liminar suspende a negativação. A dívida continua existindo, mas o nome fica limpo, e você fica livre para abrir contas em bancos que você não tem dívidas, fazer financiamentos, ter cartões de crédito...' },
+      { tipo: 'user', texto: 'E quanto custa isso tudo?' },
+      { tipo: 'bot', texto: 'Nós somos a única empresa do país que só te cobra qualquer valor após o serviço estar CONCLUÍDO.... Ou seja, não te cobramos NADA antes, aqui não tem golpe!' },
+      { tipo: 'bot', texto: 'Inclusive já saímos em várias matérias de jornais e revistas conhecidas no Brasil por sermos referência nesse tipo de ação!' },
+      { tipo: 'bot', texto: 'Nossa transparência é o que mais chama atenção: você só paga depois que o serviço estiver entregue, sem enganação.' },
+      { tipo: 'bot', texto: 'Quer saber o preço do nosso serviço? Clique abaixo e fale com a gente no whatsapp!! 💬' }
+    ];
+
+    let index = 0;
+    const chat = document.getElementById('chat');
+
+    function mostrarMensagens() {
+      if (index < mensagens.length) {
+        const msg = document.createElement('div');
+        msg.className = 'msg ' + mensagens[index].tipo;
+        msg.textContent = mensagens[index].texto;
+        chat.appendChild(msg);
+        chat.scrollTop = chat.scrollHeight;
+        index++;
+        setTimeout(mostrarMensagens, 1500);
+      }
+    }
+
+    window.onload = mostrarMensagens;
+  </script>
+</body>
+</html>
